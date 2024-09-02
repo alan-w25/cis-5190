@@ -16,6 +16,7 @@
 \usepackage[noabbrev]{cleveref}
 \usepackage{courier}
 \usepackage{listings}
+\usepackage{float}
 
 
 \oddsidemargin 0in
@@ -100,7 +101,18 @@
 \item
   \begin{enumerate}
   \item \textbf{B}
-  \item
+  \item We are given that 
+  \begin{align}
+    Var(x) = E[(X-E[X])^{2}] \\ 
+    = E[(x^{2} - 2xE[x] + E[x]^{2})] \\ 
+    = E[x^2] - E(2xE[x]) + E[E[x]^2] \\ 
+    = E[x^2] - 2 \cdot E[x] \cdot E[x] + E[x]^2 \\
+    = E[x^2] - 2E[x]^2 + E[x]^2 \\ 
+    = E[x^2] - E[x]^2
+  \end{align}
+  We know that $E[2xE[x]] = 2E[x]E[x] = 2E[x]^2$ because $E[x]$ is a constant. Furthermore
+  we know that $E[E[x]^2] = E[x]^2$ because $E[x]$ is a constant. Thus, our equation for variance 
+  $Var(x) = E[(X-E[X]^2)]$ reduces down to $E[x^2] - E[x]^2$.
   \end{enumerate}
  \item
  \begin{enumerate}
@@ -110,7 +122,22 @@
  \end{enumerate}
 \item 
  \begin{enumerate}
+    
     \item 
+      We are given a 2x2 matrix. We can find the eigenvalues of a 2x2 matrix by solving the following equation: 
+      $det(A- \lambda \cdot I) = 0$. Since A is 2x2 we know then $I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$. And also, 
+      because A is a 2x2 matrix, then the determinant of any 2x2 matrix given elements $ \begin{bmatrix} a & b \\ c & d \end{bmatrix}$ 
+      $det(M) = ad-bc$. Thus, we can solve for the eigenvalues of A by solving the equation: \\ 
+      \begin{align}
+        det(A - \lambda \cdot I) = 0 \notag \\ 
+       = det(\begin{bmatrix} 4-\lambda & 2 \\ 1 & 5-\lambda \end{bmatrix}) = 0 \notag \\
+        = (4-\lambda)(5-\lambda) - 2 = 0 \notag \\ 
+        = 20 - 9 \lambda + \lambda^{2} - 2 = 0 \notag \\ 
+        = \lambda^2 - 9\lambda + 18 = 0 \notag \\ 
+        = (\lambda - 6)(\lambda - 3) = 0 \notag \\ 
+        \lambda = 6, 3 \notag
+      \end{align}
+     Thus, the two eigenvalues for the matrix A is 6 and 3. 
     \item  
  \end{enumerate}
 \end{enumerate}
@@ -118,5 +145,11 @@
 \section{Python Programming Questions}
 
 % Complete questions in your iPython notebook and place all results here.
+  \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{fig1.png}
+      \caption{Figure 1}
+      \label{fig:fig1}
+  \end{figure}
 
 \end{document} 

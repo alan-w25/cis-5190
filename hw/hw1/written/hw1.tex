@@ -1,0 +1,166 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
+\usepackage[noabbrev]{cleveref}
+\usepackage{courier}
+\usepackage{listings}
+
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+
+\newcommand{\ignore}[1]{}
+\def\pp{\par\noindent}
+
+\newcommand{\assignment}[4]{
+\thispagestyle{plain}
+\newpage
+\setcounter{page}{1}
+\noindent
+\begin{center}
+\framebox{ \vbox{ \hbox to 6.28in
+{CIS 419/519: Applied Machine Learning \hfill #1}
+\vspace{4mm}
+\hbox to 6.28in
+{\hspace{2.5in}\large\bf\mbox{Homework #2}}
+\vspace{4mm}
+\hbox to 6.28in
+{{\it Handed Out: #3 \hfill Due: #4}}
+}}
+\end{center}
+}
+
+\makeatletter
+\renewcommand{\fnum@algorithm}{\fname@algorithm}
+\makeatother
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{framextopmargin=50pt,frame=bottomline}
+
+
+\begin{document}
+
+\assignment{Fall 2024}{1}{September 11}{7:59 pm October 2}
+
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+
+
+{\bf Name: }  Alan Wu\\
+
+{\bf PennKey:} alanlwu\\
+
+{\bf PennID:} 41855518
+
+\section{Declaration}
+\begin{itemize}
+\item \textbf{Person(s) discussed with:} \textit{Your answer}
+\item \textbf{Affiliation to the course: student, TA, prof etc.} \textit{Your answer}
+\item \textbf{Which question(s) in coding / written HW did you discuss?} \textbf{\textit{Your answer}}
+\item \textbf{Briefly explain what was discussed.} \textit{Your answer}
+\end{itemize}
+
+\section{Multiple Choice \& Written Questions}
+
+\begin{enumerate}
+\item 
+\begin{enumerate}
+\item Increase variance; bias stays the same
+\item Decrease variance; Increase bias
+\item Decrease variance; Increase bias 
+\item Variance increases; Bias stays the same 
+\item Variance stays the same; Bias stays the same 
+\item for the following values to decrease test loss\\
+    $n$: Increase n \\ 
+    $\lambda$: Increase $\lambda$ \\ 
+    $d$: Decrease $d$ \\ 
+    $c$: Decrease $c$ \\ 
+    $\alpha$: Keep $\alpha$ the same 
+\end{enumerate}
+
+\item
+\begin{enumerate}
+\item To derive the gradient of the L1 regularization term for the: \\ 
+We need to simply take the gradient of the equation with respect to $B_j$. 
+\begin{align}
+  L_{\ell_1} = \lambda \sum_{j=1}^{p} |B_j| \\ 
+  \frac{\partial L_{\ell_1}}{\partial B_j} = \lambda \text{ sign} (B_j)
+\end{align}
+
+We ignore the case where $B_j = 0$ and derive that equation from the loss function. Notice that the gradient of the L1 regularized loss function
+is only dependent on the sign of $B_j$ and the magnitude of $\lambda$.
+
+\item  We can analyze the effect of the L1 regularization term on the parameters of the model by looking 
+at the gradient of both the L1 regularization term and the MSE loss function with respect to $B_j$. \\ 
+
+We can derive the full gradient of the loss function as such: 
+
+\begin{align}
+  L_{\ell_1} = \frac{1}{N} \sum_{i=1}^{N} (y_i - B^T x_i)^2 + \lambda \sum_{j=1}^{p} |B_j| \notag \\ 
+  \frac{\partial L_{\ell_1}}{\partial B_j} = \frac{-2}{N} \sum_{i=1}^{N} (y_i - B^T x_i)x_{ij} + \lambda \text{ sign}(B_j)
+\end{align}
+
+Part 1: The MSE Loss Term \\ 
+Our two cases for the MSE loss that we have to consider is when $B_j$ is predictive of $y_i$ and when it is weakly or not predictive of $y_i$.
+We know that the MSE loss is not dependent on the value of $\lambda$. \\ 
+
+For predictive features, $B_j$ will be larger and thus, the gradient of the MSE loss term will be larger in magnitude (positive or negative) than those of weakly predictive features. 
+And in this way, the gradient of the MSE loss term for predictive features will change more than those that are weakly predictive because they have greater impact on minimizing the loss. \\
+
+Thus, the magnitude of $B_j$ is dependent on how strongly correlated/predictive the feature $x_{ij}$ is in relation to $y_i$.\\
+
+Part 2: The L1 Regularization term \\ 
+As we derived earlier, the gradient of the L1 regularization term is only dependent on the sign of $B_j$ and the magnitude of $\lambda$. \\ 
+
+The equation is: $\frac{\partial L_{\ell_1}}{\partial B_j} = \lambda \text{ sign} (B_j) $\\
+
+This observation gives us two cases where the feature $B_j$ of the L1 loss regularization term will be scaled by the value of $\lambda$ and the sign of $B_j$. \\ 
+And when we scale $\lambda$, we will observe the following: \\ 
+For small $\lambda$, the L1 regularization term will have a small impact on the overall gradient. With respect to $B_j$, this means that many $B_j$ may be non-zero because the MSE loss term dominates the gradient. For both predictive and non-predictive features we may have non-zero values. \\ 
+For large $\lambda$, the L1 regularization term may overtake the MSE loss term in the gradient. For coeffcients $B_j$ where $B_j$ has small magnitude, the L1 regularization term will dominate and thus this parameter will be pushed down/up based on the sign of the parameter. Once the L1 regularization term dominates 
+we will see that many $B_j$ will shrink to 0, as once the $B_j$ arrives at 0, it will stay there. 
+
+
+\item ;alskdjf;lak;
+\end{enumerate}
+
+\item
+  \begin{enumerate}
+  \item
+  \item
+  \end{enumerate}
+
+\item
+  \begin{enumerate}
+  \item
+  \item
+  \end{enumerate}
+ \item
+ \begin{enumerate}
+     \item 
+     \item 
+     \item
+ \end{enumerate}
+\end{enumerate}
+
+\section{Python Programming Questions}
+
+% Complete questions in your iPython notebook and place all results here.
+
+\end{document} 

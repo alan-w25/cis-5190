@@ -113,7 +113,7 @@ We can derive the full gradient of the loss function as such:
 
 \begin{align}
   L_{\ell_1} = \frac{1}{N} \sum_{i=1}^{N} (y_i - B^T x_i)^2 + \lambda \sum_{j=1}^{p} |B_j| \notag \\ 
-  \frac{\partial L_{\ell_1}}{\partial B_j} = \frac{-2}{N} \sum_{i=1}^{N} (y_i - B^T x_i)x_{ij} + \lambda \text{ sign}(B_j)
+  \frac{\partial L_{\ell_1}}{\partial B_j} = \frac{-2}{N} \sum_{i=1}^{N} (y_i - B^T x_i)x_{ij} + \lambda \text{ sign}(B_j) \notag
 \end{align}
 
 Part 1: The MSE Loss Term \\ 
@@ -137,13 +137,78 @@ For large $\lambda$, the L1 regularization term may overtake the MSE loss term i
 we will see that many $B_j$ will shrink to 0, as once the $B_j$ arrives at 0, it will stay there. 
 
 
-\item ;alskdjf;lak;
+\item The L2 regularization loss equation:  \\ 
+
+We know that the L2 regularization loss function is defined as: \\ $L_{\ell_2} = \frac{1}{N} \sum_{i=1}^{N} (y_i - B^T x_i)^2 + \lambda \sum_{j=1}^{p} B_j^2$ \\
+Therefore, the gradient of the L2 regularization term with respect to $B_j$ is: \\ 
+$\frac{\partial L_{\ell_2}}{\partial B_j} = 2 \lambda B_j$  \\
+
+Just purely based on the gradient of the L2 regularization term, we can see that the L2 regularization term is dependent on the magnitude of both $\lambda$ and $B_j$, as well as the sign of $B_j$. 
+Compared to the gradient of the L1 regularization term, which solely depends on the sign of $B_j$ and the magnitude of $\lambda$. \\ 
+
+Because of this dependency, we can see that the L2 regularization term will not create a sparse matrix. In the scenario that we have 
+values $B_j$ that are very small (feature $x_{ij}$ is weakly predictive of $y_i$), the gradient of the L2 regularization term will simply increase less as the value of $B_j$ approaches 0. However, 
+the L2 regularization term will not push the value of $B_j$ to 0. Therefore, it does not create a sparse parameter matrix.  
 \end{enumerate}
 
 \item
   \begin{enumerate}
-  \item
-  \item
+  \item We will do two derivations in this question. The first derivation will be the gradient of the loss function with respect to $w^{*}_1$. The second will be the gradient of the loss function 
+with respect to $w^{*}_0$ \\. 
+
+    We are given: $J(w) = \frac{1}{n} \sum_{i=1}^{n} (y_i - w_0 - w_1x_i)^2$ \\ 
+
+    First let us derive $\frac{\partial J(w)}{\partial w^{*}_1}$: \\ 
+    \begin{align}
+      \frac{\partial J(w)}{\partial w^{*}_1} = \frac{\partial}{\partial w^{*}_1} [\frac{1}{n} \sum_{i=1}^{n} (y_i - w_0 - w_1x_i)^2] \notag \\ 
+      = \frac{-2}{n} \sum_{i=1}^{n} (y_i - w_0 - w_1x_i)x_i \notag 
+    \end{align}
+
+    Next, let us derive $\frac{\partial J(w)}{\partial w^{*}_0}$: \\ 
+    \begin{align}
+      \frac{\partial J(w)}{\partial w^{*}_0} = \frac{\partial}{\partial w^{*}_0} [\frac{1}{n} \sum_{i=1}^{n} (y_i - w_0 - w_1x_i)^2] \notag \\ 
+      = \frac{-2}{n} \sum_{i=1}^{n} (y_i - w_0 - w_1x_i) \notag 
+    \end{align}
+  \item In order to show that $\frac{1}{n} \sum_{i=1}^{n} (y_i - w^*_0 - w_{1}^{*}x_i)(x_i-\bar{x}) = 0$, 
+we need to manipulate the gradients found from the previous question to show that the equation is true. \\
+
+We will find the optimal values of $w_0$ and $w_1$ by setting their gradient equations to zero, and algebraically determining a form for each term, then substituting it in to show that the above expression is true. \\ 
+
+First, we will set the gradient of loss with respect to $w_0$ to 0: \\ 
+\begin{align}
+  \frac{-2}{n} \sum_{i=1}^{n} (y_i - w_0^* - w_1^*x_i) = 0 \notag \\ 
+  = \frac{-2}{n} [\sum_{i=1}^{n} y_i - \sum_{i=1}^{n} w_0^* - w_1^* \sum_{i=1}^{n} x_i] \notag \\
+  = -2 * (\bar{y} - w_0^* - w_1^* \bar{x}) = 0 \notag \\ 
+  w_0^* = \bar{y} - w_1^* \bar{x} \notag
+\end{align}
+
+Next, we will set the gradient of loss with respect to $w_1$ to 0: \\ 
+\begin{align}
+  \frac{2}{n} \sum_{i=1}^{n} (y_i - w_0 - w_1^*x_i) x_i = 0 \notag \\ 
+  = \frac{-2}{n} [\sum_{i=1}^{n} (y_ix_i - w0x_i - w_1^*x_i^2)] = 0 \notag \\ 
+  = \frac{-2}{n} [\sum_{i=1}^{n} (y_ix_i - (\bar{y} - w_1^* \bar{x}) x_i - w_1^*x_i^2)] = 0  \notag \\ 
+  = \frac{-2}{n} [\sum_{i=1}^{n} (y_i - \bar{y})x_i + w_1^* \sum_{i=1}^{n} (\bar{x} - x_i)x_i] = 0 \notag \\ 
+  = \frac{-2}{n} [\sum_{i=1}^{n} (y_i - \bar{y})x_i - w_1^* \sum_{i=1}^{n} (x_i-\bar{x})x_i] = 0 \notag \\ 
+  w_1^* = \frac{\sum_{i=1}^{n} (y_i - \bar{y})(x_i - \bar{x})}{\sum_{i=1}^{n} (x_i-\bar{x})^2} \notag
+ \end{align}
+
+ A couple of notes in this derivation: \\ 
+
+ We substituted the equation for $w_0^*$ into the equation to simplify our derivation. We also utilized a statistical algebraic manipulation twice, 
+ saying that $\sum_{i=1}^{n} (y_i - \bar{y})x_i = \sum_{i=1}^{n} (y_i - \bar{y})(x_i - \bar{x})$. Same algebraic manipulation to say that 
+ $\sum_{i=1}^{n} (x_i - \bar{x})x_i = \sum_{i=1}^{n} (x_i - \bar{x})^2$\\ 
+
+ Now that we have those two derivations, we can substitute the optimal values of $w_0^*$ and $w_1^*$ into the original equation to show that it is true:
+
+ \begin{align}
+  \frac{1}{n} \sum_{i=1}^{n} (y_i - w^*_0 - w_{1}^{*}x_i)(x_i-\bar{x}) = 0 \notag \\ 
+  \frac{1}{n} \sum_{i=1}^{n} (y_i - \bar{y} + w_1^* \bar{x} - w_1^*x_i) (x_i - \bar{x}) = 0 \notag \\ 
+  = \frac{1}{n} [\sum_{i=1}^{n}(y_i-\bar{y})(x_i-\bar{x}) - w_1^* \sum_{i=1}^{n}(x_i-\bar{x})^2] \notag \\ 
+  = \frac{1}{n}[\sum_{i=1}^{n}(y_i-\bar{y})(x_i-\bar{x}) - \frac{\sum_{i=1}^{n} (y_i - \bar{y})(x_i - \bar{x})}{\sum_{i=1}^{n} (x_i-\bar{x})^2} \sum_{i=1}^{n}(x_i-\bar{x})^2] \notag \\ 
+  = \frac{1}{n}[\sum_{i=1}^{n}(y_i-\bar{y})(x_i-\bar{x}) - \sum_{i=1}^{n} (y_i - \bar{y})(x_i - \bar{x})] \notag \\  
+  = \frac{1}{n} [0] = 0 \notag
+ \end{align}
+ \item 
   \end{enumerate}
 
 \item

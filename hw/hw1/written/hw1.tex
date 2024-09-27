@@ -213,15 +213,70 @@ Next, we will set the gradient of loss with respect to $w_1$ to 0: \\
 
 \item
   \begin{enumerate}
-  \item
-  \item
+  \item The value of the loss function at the beginning is going to be the loss function evaluated with the initial weights of $w = [0,0,0]^T$ \\ 
+  \begin{align}
+    L(w) = \frac{1}{N} \sum_{i = 1}{N} (y_i - wx_i)^2 + \lambda ||w||^2 \notag \\
+    L(w_{\text{initial}}) = \frac{1}{2} [ (0 - [0,0] \cdot [1,-1])^2 + (1 - [0,0] \cdot [-1,-1])^2] + 1 \cdot ||[0,0]||^2 \notag \\ 
+    = \frac{1}{2} (1) = 0.5 \notag
+  \end{align}
+  
+  Therefore, the value of the loss function initially is $0.5$
+
+  \item To find the final state of the trained weight vector after 2 steps and the corresponding value of the loss function, we need to compute the gradient at each
+  step, and update the gradient and loss based on that value of the gradient. We will iteratively compute this: \\ 
+
+  Computing the gradient of the loss function: \\  
+  \begin{align}
+    \frac{\partial L(w)}{\partial w} = \frac{\partial}{\partial w} \frac{1}{N} \sum_{i = 1}{N} (y_i - wx_i)^2 + \lambda ||w||^2 \notag \\ 
+    = \frac{\partial}{\partial w} \frac{1}{N} \sum_{i = 1}{N} (y_i - wx_i)^2 + \lambda \sum_{j=1}^{p}w_j^2 \notag \\ 
+    = \frac{-2}{N} \sum_{i=1}^{N} (y_i - wx_i)x_i + 2 \lambda w \notag 
+   \end{align}
+
+   We also know that the gradient updates as the following: $w_{t+1} = w_t - \alpha \nabla L(w_t)$ where the weight vector of the next step is going to be the weight of the current step subtracted by the gradient of the loss function at the current step scaled by the learning rate\\
+
+   With this information, we can compute the weight vector after 2 steps by doing the following: \\ 
+
+   First we need to compute the value of the weight vector after step 1, of which we first need to compute the gradient at the first step: \\ 
+   \begin{align}
+    \nabla L(w_{\text{initial}}) = \frac{-2}{2} \sum_{i=1}^{2} (y_i - [0,0] \cdot x_i) x_i + 0 \notag \\ 
+    = -1 \cdot [(0 - 0)[1,-1] + (1-0)[-1,-1]] \notag \\ 
+    = -1 \cdot [-1,-1] = [1,1] \notag 
+   \end{align}
+
+   Now we update the weight vector: \\ 
+   \begin{align}
+    w_{\text{step 1}} = w_{\text{initial}} - \alpha \nabla L(w_{\text{initial}}) \notag \\ 
+    = [0,0] - 1 \cdot [1,1] = [-1,-1] \notag \\ 
+    w_{\text{step 1}} = [-1,-1] \notag
+   \end{align}
+
+   We need to compute the gradient at the second step with this new weights vector:
+
+   \begin{align}
+    \nabla L(w_{\text{step 1}}) = \frac{-2}{2} \sum_{i=1}^{2} (y_i - [-1,-1] \cdot x_i) x_i + 2 \cdot 1 \cdot [-1,-1] \notag \\ 
+    = -1 \cdot [(0 - [-1,-1] \cdot [1,-1])[1,-1] + (1 - [-1,-1] \cdot [-1,-1])[-1,-1]] + [-2,-2] \notag \\ 
+    = -1 \cdot [[1,1]] + [-2,-2] \notag \\ 
+    = [-1,-1] + [-2,-2] = [-3,-3] \notag \\ 
+   \end{align}
+   Now we update the weight vector again using the gradient: \\ 
+   \begin{align}
+    w_{\text{step 2}} = w_{\text{step 1}} - \alpha \nabla L(w_{\text{step 1}}) \notag \\ 
+    = [-1,-1] - 1 \cdot [-3,-3] = [2,2] \notag \\ 
+    w_{\text{step 2}} = [2,2] \notag
+   \end{align}
+
+   We have to remember that all the operations are vectors, so we are subtracting/multiplying vector. 
+
+   Finally, we will compute the loss function after 2 epochs: 
+   \begin{align}
+   L(w_{\text{step 2}}) = \frac{1}{2} \sum_{i=1}^{2} (y_i - [2,2] \cdot x_i)^2 + 1 \cdot ||[2,2]||^2 \notag \\
+   = \frac{1}{2} [(0 - [2,2] \cdot [1,-1])^2 + (1 - [2,2] \cdot [-1,-1])^2] + 1 \cdot (2^2 + 2^2) \notag \\ 
+   = \frac{1}{2} [(0-0)^2 + (1-(-4))^2] + 8 \notag \\ 
+   = \frac{1}{2} (25) + 8 = 12.5 + 8 = 20.5 \notag 
+   \end{align}
+
+   The final loss after 2 epochs of training is $20.5$
   \end{enumerate}
- \item
- \begin{enumerate}
-     \item 
-     \item 
-     \item
- \end{enumerate}
 \end{enumerate}
 
 \section{Python Programming Questions}

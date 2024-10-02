@@ -70,10 +70,10 @@
 
 \section{Declaration}
 \begin{itemize}
-\item \textbf{Person(s) discussed with:} \textit{Your answer}
-\item \textbf{Affiliation to the course: student, TA, prof etc.} \textit{Your answer}
-\item \textbf{Which question(s) in coding / written HW did you discuss?} \textbf{\textit{Your answer}}
-\item \textbf{Briefly explain what was discussed.} \textit{Your answer}
+\item \textbf{Person(s) discussed with:} \textit{Peter Zhang, Arihant Tripathi}
+\item \textbf{Affiliation to the course: student, TA, prof etc.} \textit{Students}
+\item \textbf{Which question(s) in coding / written HW did you discuss?} \textbf{\textit{Question 1}}
+\item \textbf{Briefly explain what was discussed.} \textit{Effect of scaling c on the capacity and bias and variance of model}
 \end{itemize}
 
 \section{Multiple Choice \& Written Questions}
@@ -90,7 +90,7 @@
     $n$: Increase n \\ 
     $\lambda$: Increase $\lambda$ \\ 
     $d$: Decrease $d$ \\ 
-    $c$: Decrease $c$ \\ 
+    $c$: Keep $c$ the same \\ 
     $\alpha$: Keep $\alpha$ the same 
 \end{enumerate}
 
@@ -99,8 +99,8 @@
 \item To derive the gradient of the L1 regularization term for the: \\ 
 We need to simply take the gradient of the equation with respect to $B_j$. 
 \begin{align}
-  L_{\ell_1} = \lambda \sum_{j=1}^{p} |B_j| \\ 
-  \frac{\partial L_{\ell_1}}{\partial B_j} = \lambda \text{ sign} (B_j)
+  L_{\ell_1} = \lambda \sum_{j=1}^{p} |B_j| \notag \\ 
+  \frac{\partial L_{\ell_1}}{\partial B_j} = \lambda \text{ sign} (B_j) \notag
 \end{align}
 
 We ignore the case where $B_j = 0$ and derive that equation from the loss function. Notice that the gradient of the L1 regularized loss function
@@ -117,38 +117,66 @@ We can derive the full gradient of the loss function as such:
 \end{align}
 
 Part 1: The MSE Loss Term \\ 
-Our two cases for the MSE loss that we have to consider is when $B_j$ is predictive of $y_i$ and when it is weakly or not predictive of $y_i$.
-We know that the MSE loss is not dependent on the value of $\lambda$. \\ 
 
-For predictive features, $B_j$ will be larger and thus, the gradient of the MSE loss term will be larger in magnitude (positive or negative) than those of weakly predictive features. 
-And in this way, the gradient of the MSE loss term for predictive features will change more than those that are weakly predictive because they have greater impact on minimizing the loss. \\
+We will discuss the two following cases: There is no dependency on the value of $\lambda$ in the MSE loss term.
+\begin{enumerate}
+  \item When $B_j$ is predictive of $y_i$ \\
+
+  In this case, $B_j$ will be larger in magnitude and he gradient of the MSE loss term with respect to $B_j$ will be greater in magnitude. The gradient of the MSE loss term will also be larger, as it will influence changes in the gradient heavily.\\
+
+
+  \item When $B_j$ is weakly or not predictive of $y_i$\\
+  
+  When $B_j$ is weakly or not predictive of $y_i$, $B_j$ will be smaller in magnitude (based on least squares regression). The gradient of the MSE loss term with respect to $B_j$ will be smaller in magnitude. The gradient of the MSE loss term will also be smaller, as it will influence changes in the gradient less.\\
+\end{enumerate}
 
 Thus, the magnitude of $B_j$ is dependent on how strongly correlated/predictive the feature $x_{ij}$ is in relation to $y_i$.\\
 
 Part 2: The L1 Regularization term \\ 
+
 As we derived earlier, the gradient of the L1 regularization term is only dependent on the sign of $B_j$ and the magnitude of $\lambda$. \\ 
 
 The equation is: $\frac{\partial L_{\ell_1}}{\partial B_j} = \lambda \text{ sign} (B_j) $\\
 
 This observation gives us two cases where the feature $B_j$ of the L1 loss regularization term will be scaled by the value of $\lambda$ and the sign of $B_j$. \\ 
+
 And when we scale $\lambda$, we will observe the following: \\ 
-For small $\lambda$, the L1 regularization term will have a small impact on the overall gradient. With respect to $B_j$, this means that many $B_j$ may be non-zero because the MSE loss term dominates the gradient. For both predictive and non-predictive features we may have non-zero values. \\ 
-For large $\lambda$, the L1 regularization term may overtake the MSE loss term in the gradient. For coeffcients $B_j$ where $B_j$ has small magnitude, the L1 regularization term will dominate and thus this parameter will be pushed down/up based on the sign of the parameter. Once the L1 regularization term dominates 
-we will see that many $B_j$ will shrink to 0, as once the $B_j$ arrives at 0, it will stay there. 
+
+\begin{enumerate}
+
+  \item Small $\lambda$ \\
+  
+  For small $\lambda$, the L1 regularization term will have a small impact on the overall gradient. With respect to $B_j$, this means that many $B_j$ may be non-zero because the MSE loss term dominates the gradient. For both predictive and non-predictive features we may have non-zero values. \\ 
+
+  \item Large $\lambda$ \\
+  
+  For large $\lambda$, the L1 regularization term may overtake the MSE loss term in the gradient. For coeffcients $B_j$ where $B_j$ has small magnitude, the L1 regularization term will dominate and thus this parameter will be pushed down/up based on the sign of the parameter. Once the L1 regularization term dominates 
+we will see that many $B_j$ will shrink to 0, as once the $B_j$ arrives at 0, it will stay there. \\
+
+
+\end{enumerate}
+
+Regardless of the size of $\lambda$, it will always be the case that the regularization term will push the value of $B_j$ to 0. This is because the L1 regularization term has a constant dampening effect on the gradient, regardless of the magnitude of $B_j$. 
+
 
 
 \item The L2 regularization loss equation:  \\ 
 
-We know that the L2 regularization loss function is defined as: \\ $L_{\ell_2} = \frac{1}{N} \sum_{i=1}^{N} (y_i - B^T x_i)^2 + \lambda \sum_{j=1}^{p} B_j^2$ \\
-Therefore, the gradient of the L2 regularization term with respect to $B_j$ is: \\ 
+We know that the L2 regularization loss function is defined as: \\ 
+
+$L_{\ell_2} = \frac{1}{N} \sum_{i=1}^{N} (y_i - B^T x_i)^2 + \lambda \sum_{j=1}^{p} B_j^2$ \\
+
+Therefore, the gradient of the L2 regularization term with respect to $B_j$ is: \\
+
 $\frac{\partial L_{\ell_2}}{\partial B_j} = 2 \lambda B_j$  \\
 
-Just purely based on the gradient of the L2 regularization term, we can see that the L2 regularization term is dependent on the magnitude of both $\lambda$ and $B_j$, as well as the sign of $B_j$. 
-Compared to the gradient of the L1 regularization term, which solely depends on the sign of $B_j$ and the magnitude of $\lambda$. \\ 
+Just purely based on the gradient of the L2 regularization term, we can see that the L2 regularization term is dependent on the magnitude of both $\lambda$ and $B_j$, as well as the sign of $B_j$. \\
+
+Compared to the gradient of the L1 regularization term, which solely depends on the sign of $B_j$ and the magnitude of $\lambda$. This is a key difference; because the L1 gradient only depends on the sign of the $B_j$, this means that regardless of the magnitude of $B_j$, L1 regualrization will apply a constant dampening term to the gradient. This is not the case for L2 regularization. \\ 
 
 Because of this dependency, we can see that the L2 regularization term will not create a sparse matrix. In the scenario that we have 
 values $B_j$ that are very small (feature $x_{ij}$ is weakly predictive of $y_i$), the gradient of the L2 regularization term will simply increase less as the value of $B_j$ approaches 0. However, 
-the L2 regularization term will not push the value of $B_j$ to 0. Therefore, it does not create a sparse parameter matrix.  
+the L2 regularization term will not push the value of $B_j$ to 0. As $B_j$ gets smaller, the L2 term will not overtake the MSE loss term like in L1 regularization. Therefore, it does not create a sparse parameter matrix.  
 \end{enumerate}
 
 \item
@@ -172,7 +200,7 @@ with respect to $w^{*}_0$ \\.
   \item In order to show that $\frac{1}{n} \sum_{i=1}^{n} (y_i - w^*_0 - w_{1}^{*}x_i)(x_i-\bar{x}) = 0$, 
 we need to manipulate the gradients found from the previous question to show that the equation is true. \\
 
-We will find the optimal values of $w_0$ and $w_1$ by setting their gradient equations to zero, and algebraically determining a form for each term, then substituting it in to show that the above expression is true. \\ 
+We will find the optimal values of $w_0$ and $w_1$ by setting their gradient equations to zero, and algebraically determining a form for each term, then substituting it in to show that the above expression is true. Setting the gradient to zero and holding the other term constant, doing this twice, will yield the minimum of the gradient or the optimal solution we are looking for. \\ 
 
 First, we will set the gradient of loss with respect to $w_0$ to 0: \\ 
 \begin{align}
@@ -208,7 +236,28 @@ Next, we will set the gradient of loss with respect to $w_1$ to 0: \\
   = \frac{1}{n}[\sum_{i=1}^{n}(y_i-\bar{y})(x_i-\bar{x}) - \sum_{i=1}^{n} (y_i - \bar{y})(x_i - \bar{x})] \notag \\  
   = \frac{1}{n} [0] = 0 \notag
  \end{align}
- \item 
+ 
+ \item The overarching solution to this problem is that linear regression will not yield a unique solution for every dataset. For some datasets, there will indeed be a unique solution. However, this is not the case for all datasets \\ 
+
+ We know the closed form solution for the linear regression problem is: $B_{\text{closed form}} = (X^TX)^{-1}X^TY$ \\
+
+ There are two cases for any given dataset:
+
+
+ \begin{enumerate}
+  \item The dataset does indeed have a unique solution \\
+
+    If the dataset does indeed have a unique solution, then this means that we have a solution to the analytical solution for $B$. This would simply be 
+    the expression $B = (X^TX)^{-1}X^TY$. In this scenario, we know that the data matrix $X$ is full rank, and thus the matrix $X^TX$ is invertible. This means that all the columns or features in the dataset are linearly independent. 
+  
+
+  \item The dataset has multiple solutions \\
+  
+  If the dataset does not have a unique solution, then the analytical solution for $B$ is not applicable. In this case, the matrix $X^TX$ is not invertible. This could be because the columns of the data matrix $X$ are linearly dependent. This means that there are an infinite number of combinations to assign to the weights $B$ that will yield the same outcome y.
+ \end{enumerate}
+
+ Therefore, linear regression is not guaranteed to have a unique solution for every dataset.
+
   \end{enumerate}
 
 \item
@@ -220,7 +269,7 @@ Next, we will set the gradient of loss with respect to $w_1$ to 0: \\
     = \frac{1}{2} (1) = 0.5 \notag
   \end{align}
   
-  Therefore, the value of the loss function initially is $0.5$
+  Therefore, the value of the loss function initially is $\textbf{0.5}$
 
   \item To find the final state of the trained weight vector after 2 steps and the corresponding value of the loss function, we need to compute the gradient at each
   step, and update the gradient and loss based on that value of the gradient. We will iteratively compute this: \\ 
@@ -256,7 +305,7 @@ Next, we will set the gradient of loss with respect to $w_1$ to 0: \\
     \nabla L(w_{\text{step 1}}) = \frac{-2}{2} \sum_{i=1}^{2} (y_i - [-1,-1] \cdot x_i) x_i + 2 \cdot 1 \cdot [-1,-1] \notag \\ 
     = -1 \cdot [(0 - [-1,-1] \cdot [1,-1])[1,-1] + (1 - [-1,-1] \cdot [-1,-1])[-1,-1]] + [-2,-2] \notag \\ 
     = -1 \cdot [[1,1]] + [-2,-2] \notag \\ 
-    = [-1,-1] + [-2,-2] = [-3,-3] \notag \\ 
+    = [-1,-1] + [-2,-2] = [-3,-3] \notag 
    \end{align}
    Now we update the weight vector again using the gradient: \\ 
    \begin{align}
@@ -275,12 +324,67 @@ Next, we will set the gradient of loss with respect to $w_1$ to 0: \\
    = \frac{1}{2} (25) + 8 = 12.5 + 8 = 20.5 \notag 
    \end{align}
 
-   The final loss after 2 epochs of training is $20.5$
+   The final loss after 2 epochs of training is $\textbf{20.5}$
+   \item In order to solve the closed form formula for the ridge regression loss function, we need to rewrite the loss function in matrix form and then derive the expression by taking the gradient and setting it equal to $0$. \\ 
+
+    First we need to rewrite the loss function: \\ 
+    \begin{align}
+      L(w) = \frac{1}{N} = \sum_{i=1}{N} (y_i - wx_i)^2 + \lambda ||w||^2 \notag \\ 
+      = \frac{1}{N} ||y-xw||^2_2 + \lambda ||w||^2 \notag \\ 
+      = \frac{1}{N} (y-xw)^T(y-xw) + \lambda w^Tw \notag \\
+      = \frac{1}{N} (y^Ty - 2y^Txw + w^Tx^Txw) + \lambda w^Tw \notag
+    \end{align}
+
+    Next we need to compute the gradient using matrix calculus: \\ 
+    \begin{align}
+      L(w) = \frac{1}{N} (y^Ty - 2y^Txw + w^Tx^Txw) + \lambda w^Tw \notag \\ 
+      \frac{\partial L(w)}{\partial w} = \frac{\partial}{\partial w} \frac{1}{N} (y^Ty - 2y^Txw + w^Tx^Txw) + \lambda w^Tw \notag \\
+      = \frac{1}{N} (0 + -2x^Ty + 2x^Txw) + 2 \lambda w \notag \\ 
+      = \frac{1}{N} (-2x^Ty + 2x^Txw) + 2 \lambda w \notag
+    \end{align}
+
+    Finally, we need to compute the expression for $w$ by minimizing the gradient: 
+    \begin{align}
+      \frac{\partial L(w)}{\partial w} = \frac{1}{N} (-2x^Ty + 2x^Txw) + 2 \lambda w \notag \\ 
+      0 = \frac{1}{N} (-2x^Ty + 2x^Txw) + 2 \lambda w \notag \\ 
+      0 = \frac{-2}{N} x^Ty + \frac{2}{N} x^Txw + 2 \lambda w \notag \\ 
+      \frac{2}{N}x^Ty = w(\frac{2}{N}x^Tx + 2 \lambda) \notag \\ 
+      \frac{1}{N}x^Ty = w(\frac{1}{N}x^Tx + \lambda) \notag \\ 
+      x^Ty = w(x^Tx + N \lambda) \notag \\ 
+      w = (x^Tx + N \lambda)^{-1} x^Ty \notag
+    \end{align}
+
+    Therefore, the solution to the ridge regression solution is $w = (x^Tx + N \lambda)^{-1} x^Ty$
+
   \end{enumerate}
+  
 \end{enumerate}
 
 \section{Python Programming Questions}
 
 % Complete questions in your iPython notebook and place all results here.
+
+\textbf{Question 1.3} \\ 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{1_3.png}
+  \caption{Plot of the Training and Test loss for a polynomial regression model}
+\end{figure} 
+
+It is evident that when the degree is low, both the train and test loss are decreasing. This is indicative of the model fitting the data well. However, as the degree increases, specifically the trend from degree = 4 to degree = 8, we start seeing the test loss start to increase. 
+This is a sign of overfiting of the data as the model is fitting the training data too well and cannot generalize to new unseen samples. This behavior makes sense, as when our model capacity gets too great (high degree polynomial), the model will start to fit the noise in the data and not the underlying pattern. \\
+
+\textbf{Question 1.4} \\
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{1_4.png}
+  \caption{Training loss for different step sizes}
+\end{figure} 
+
+
+We can see that for the lower learning rates, the model converges to a lower loss than the initial loss. We notice too that the learning rates of 0.001 - 0.1. It is evident, however, that once we increase the learning rate too much, the loss 
+no longer decreases and the model diverges. The massive increase for the learning rate of 1.0 is due to the fact that the model is overshooting the minimum and is unable to converge (gradient explodes). In our tests and based on the graph, it seems that learning rates 0.1, 0.03, and 0.01 are all approaching the same loss after 100 iterations and thus perform the best lowest loss. 
+
 
 \end{document} 

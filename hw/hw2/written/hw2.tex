@@ -82,20 +82,26 @@
 \begin{enumerate}
 \item 
 \begin{enumerate}
-\item
+\item bruh
 \item bruh 
 \item bruh 
-\item 
+\item bruj
 \end{enumerate}
 
 \item
 \begin{enumerate}
-\item 
-\item bruh 
-\item bruh 
-\item bruh 
-\item burh 
-\item 
+\item If we have two training points and we are using a k = 1 neighbors algorithm, then the decision boundary will be the line that is the perpendicular bisector of the midpoint of the two training points. We already know that k nearest neighbors algorithm will have decision boundary halfway through the two points because that point is equally distant from both points. Below details an example of this: \\ 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{2_a.jpeg}
+  \caption{Decision Boundary K = 1}
+  \label{fig:boundary}
+
+\end{figure}
+\item Yes, it can explain any dataset. It will be completely determined by the training data. 
+\item As k approaches $\infty$, the decision boundary will become smoother. The resulting model function family will be the majority class of the training set, as when we use infinite point, we are essentially using the entire training set. 
+\item Increasing the k will increase the bias and lower the variance. As we have more points to reference in our regression or classification, we will have a smoother decision boundary. Since there are a greater amount of points, the average of these points will be more representative of the true value of any given point. The bias increases because as we have more points, the average prediction will be closer to the true value. 
+\item In KNN classification, we generally take the majority label and call it our prediction. We can adjust this for a given accuracy/recall/precision metric by simply changing how many values out of k we commit to a positive or negative class. Another approach we could use is to measure the probability of a given class by counting the number of positive and negative outcomes, and then determining the class prediction based on a threshold that we tune. 
 \end{enumerate}
 
 \item
@@ -169,7 +175,7 @@
   
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{tree.jpeg}
+    \includegraphics[width=0.5\textwidth]{3_c.jpeg}
     \caption{Decision Tree}
     \label{fig:tree}
   \end{figure}

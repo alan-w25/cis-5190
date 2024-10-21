@@ -82,10 +82,31 @@
 \begin{enumerate}
 \item 
 \begin{enumerate}
-\item bruh
-\item bruh 
-\item bruh 
-\item bruj
+\item Our unregularized logistic regression decision boundary will probably be a line with some intercept (positive or negative) on the x1 or x2 axis. There will be 0-1 misclassified points. In our example, we have 2 misclassified points. Here is a simple example: \\ 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{1_a.jpeg}
+  \caption{Unregularized Logistic Regression Decision Boundary}
+\end{figure}
+\item When we apply heavy regularization to the $\theta_0$ parameter, we can see that it will be pushed to 0. This means that the decision boundary will go through the origin, as when $x_1 = x_2$, the decision boundary will be 0 and the predicted probability of either class is 0.5. There should be 1-2 misclassified points. In our example, we have 1 misclassified point. And thus, our figure looks like this: \\ 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{1_b.jpeg}
+  \caption{Heavy Regularized Logistic Regression on $\theta_0$ Decision Boundary}
+\end{figure}
+\item When we apply heavy regularization to the $\theta_1$ parameter, then that means that the $\theta_1$ parameter will be pushed to 0. Since we have the line as $\theta_0 + \theta_2 x_2$, then we know that we have the decision boundary $x_2 = -\theta_0/\theta_2$. Our decision boundary will be a horizontal line that splits the clusters into two on the $x_2$ axis. There should be 1-2 misclassifications. In our figure we have 2 misclassified points. Here is the figure: \\ 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{1_c.jpeg}
+  \caption{Heavy Regularized Logistic Regression on $\theta_1$ Decision Boundary}
+\end{figure}
+\item When we apply heavy regularization to the $\theta_2$ parameter, the $\theta_2$ parameter will be pushed to 0. In this case, our decision boundary will follow the line $\theta_0 + \theta_1 x_1$. Thus, the resulting decision boundary will be $x_1 = \theta_0 / \theta_1$, which will be a vertical line that runs through the $x_1$ axis. Our sample boundary has 0 misclassified points. Here is the figure: \\ 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{1_d.jpeg}
+  \caption{Heavy Regularized Logistic Regression on $\theta_2$ Decision Boundary}
+\end{figure}
 \end{enumerate}
 
 \item
@@ -206,5 +227,13 @@
 \section{Python Programming Questions}
 
 % Complete questions in your iPython notebook and place all results here.
+
+\begin{itemize} 
+  \item \textbf{Question 1: }
+  \item \textbf{Question 2: }
+  \item \textbf{Question 3: }
+  \item \textbf{Question 4: }
+  \item \textbf{Question 6: }
+\end{itemize}
 
 \end{document} 

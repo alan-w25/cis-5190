@@ -229,11 +229,87 @@
 % Complete questions in your iPython notebook and place all results here.
 
 \begin{itemize} 
-  \item \textbf{Question 1: }
-  \item \textbf{Question 2: }
-  \item \textbf{Question 3: }
-  \item \textbf{Question 4: }
-  \item \textbf{Question 6: }
+  \item \textbf{Question 1}
+  
+  For question 1, we only have the graph 1.2: 
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{1_2.png}
+    \caption{Graph 1.2}
+    \label{fig:graph1.2}
+  \end{figure}
+
+
+
+
+  \item \textbf{Question 2}
+  
+  For question 2, we have the series of k sizes for KNN algorithm: 
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{2_3_k1.png}
+    \caption{Graph 2.3 K = 1}
+    \label{fig:graph2.3_k1}
+  \end{figure}
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{2_3_k4.png}
+    \caption{Graph 2.3 K = 4}
+    \label{fig:graph2.3_k4}
+  \end{figure}
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{2_3_k11.png}
+    \caption{Graph 2.3 K = 11}
+    \label{fig:graph2.3_k11}
+  \end{figure}
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{2_3_k15.png}
+    \caption{Graph 2.3 K = 15}
+    \label{fig:graph2.3_k15}
+  \end{figure}
+
+  We can see that as we increase the number of neighbors k, our decision boundary becomes smoother, and thus fits the different classes better. 
+  We can see in the initial k = 1, there are many misclassified points, even among the orange class, despite that class having the least overlap with the other two classes. As k approaches 15, we see that the decision classes become much more well defined and there are much less misclassified points.
+
+  \item \textbf{Question 3}
+  
+  Question 3 has one figure: \\ 
+  \begin{figure} [H]
+    \centering 
+    \includegraphics[width=0.75\textwidth]{3_1.png}
+    \caption{Graph 3.1}
+    \label{fig:graph3.1}
+  \end{figure}
+
+  Based on the plot, we see that both gini and cross entropy peak when the probability of class 1 is 0.5. This means that we have the greatest gini or entropy when the classes are equally distributed and equally imbalanced. This is good for choosing features when building a decision tree because we want to pick 
+  features that will help us split the classes into two distinct groups. When the classes are less equally distributed, it tells us less about separating the classes and decreasing the impurity in the set. In this case, when the probability of class 1 is 0 or 1, then we know that the impurity is lower than when the probability of class 1 is 0.5.
+  
+
+  \item \textbf{Question 4}
+  
+  Question 4 only has the following figure: \\ 
+
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{4_5.png}
+    \caption{Table 4.5}
+    \label{fig:graph4.5}
+  \end{figure}
+
+  Set 1 includes the original required features \\ 
+  Set 2 includes the original required features and the features BPAARM, and LBDSGBSI, as these were the only two remaining features which wouldn't result in a null train set after preprocessing.\\ 
+  Set 3 includes the original required features and the additional feature BPAARM.
+
+
+  \item \textbf{Question 6}
 \end{itemize}
 
 \end{document} 

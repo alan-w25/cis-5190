@@ -101,7 +101,7 @@
   \includegraphics[width=0.5\textwidth]{1_c.jpeg}
   \caption{Heavy Regularized Logistic Regression on $\theta_1$ Decision Boundary}
 \end{figure}
-\item When we apply heavy regularization to the $\theta_2$ parameter, the $\theta_2$ parameter will be pushed to 0. In this case, our decision boundary will follow the line $\theta_0 + \theta_1 x_1$. Thus, the resulting decision boundary will be $x_1 = \theta_0 / \theta_1$, which will be a vertical line that runs through the $x_1$ axis. Our sample boundary has 0 misclassified points. Here is the figure: \\ 
+\item When we apply heavy regularization to the $\theta_2$ parameter, the $\theta_2$ parameter will be pushed to 0. In this case, our decision boundary will follow the line $\theta_0 + \theta_1 x_1$. Thus, the resulting decision boundary will be $x_1 = -\theta_0 / \theta_1$, which will be a vertical line that runs through the $x_1$ axis. Our sample boundary has 0 misclassified points. Here is the figure: \\ 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{1_d.jpeg}
@@ -211,13 +211,14 @@
      \item The type of roof a house has would not be a good feature for our model. The two other features are numerical features where the numerical value of the feature takes on some important. This is not the case for the type of roof, as the numerical value simply represents a category. 
      \item The training complexity is $O(N * D)$, where $N$ is the number of training samples and $D$ is the number of features. We will have to go through all $N$ training samples to find the nearest neighbor. We will also have to go through all $D$ features to compute the distance between the test sample and the training sample.
      \item The curse of dimensionality is a concept where once our training data has many many features, the distance between the nearest and the farthest neighbors becomes very similar. As the number of dimensions increases, the volume of the space increases exponentially. This becomes a problem because our nearest neighbors are not going to be very predictive of the test sample (s).
+     The KNN algorithm will still be able to perform well on handwritten digits because the true dimension is lower than the number of features expressed by the images and also the true patterns of each digit are in low dimension. 
  \end{enumerate}
 
  \item 
  \begin{enumerate}
-      \item True 
-      \item immediately before the last sigmoid activation function
-      \item $2K^2$
+      \item False 
+      \item anywhere in between the above two choices.
+      \item $K^2$
       \item True
       \item False
  \end{enumerate}
@@ -240,7 +241,7 @@
     \label{fig:graph1.2}
   \end{figure}
 
-
+  We can see that as the learning rate increases, the cost becomes lower and lower. The best learning rate for the given dataset for 100 iterations is probably the learning rate of 0.1. We can see that the lowest of 0.001 probably has yet to converge at 100 iterations because it takes smaller steps. It is evident that the same trend is happening with learning rate 0.01, because it converges to the lowest cost value slower than the learning rate of 0.1.
 
 
   \item \textbf{Question 2}
@@ -275,7 +276,7 @@
     \label{fig:graph2.3_k15}
   \end{figure}
 
-  We can see that as we increase the number of neighbors k, our decision boundary becomes smoother, and thus fits the different classes better. 
+  We can see that as we increase the number of neighbors k, our decision boundary becomes smoother and goes from overfitting the dataset to fitting, and thus fits the different classes better. 
   We can see in the initial k = 1, there are many misclassified points, even among the orange class, despite that class having the least overlap with the other two classes. As k approaches 15, we see that the decision classes become much more well defined and there are much less misclassified points.
 
   \item \textbf{Question 3}
@@ -306,10 +307,20 @@
 
   Set 1 includes the original required features \\ 
   Set 2 includes the original required features and the features BPAARM, and LBDSGBSI, as these were the only two remaining features which wouldn't result in a null train set after preprocessing.\\ 
-  Set 3 includes the original required features and the additional feature BPAARM.
+  Set 3 includes the original required features and the additional feature BPAARM. \\ 
+
+  Set 3 would be chosen to be the best set, because the F1 mean cross validation score is the highest. The confidence interval also has the largest range.
 
 
   \item \textbf{Question 6}
+  
+  The best model for the diabetes when comparing logistic regression, decision tree, and neural network models would be the model that is able to model the complexities given by the dataset and also balancing the trend of the dataset. In this case, the best model would probably be the neural network model. Neural network observes pointwise nonlinearity in between the linear layers which helps it learn representations 
+  of the data that are not linear. This is important because the diabetes dataset is not linearly separable. Furthermore, there are a lot of features that contribute to the prediction of the diabetic outcome, and the neural network model will be able to learn the weights of this feature space. After the neural network model would be the decision tree, as it is able to make scale-invariant decisions based on the features and is also invariant to null values (which the data has a lot of). Although we have addressed
+  these issues with the min-max scaler and also a standard mean imputer for null values, these properties of the data still make the decision tree a good choice. The drawbacks of decision tree model against neural networks is that it is not able to model the complexities of the data as well, and can overfit specific initializations of the greedy heuristic feature selection 
+  process. The decision tree also uses axis aligned splits, which only model hypothesis spaces that are linearly separable. Finally, the logistic regression model should be the least preferred model. Logistic regression models a linear decision boundary based on the features combination. Furthermore, there is regularization applied to the model, which will further simplify the model. The logistic regression model will not be able to model the complexities of the data as well as the decision tree or the neural network model.
+
+
+
 \end{itemize}
 
 \end{document} 

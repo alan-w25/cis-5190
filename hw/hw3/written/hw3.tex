@@ -177,8 +177,17 @@ Our first initialized centroids are (6,9) for cluster 1 and (8,4) for cluster 2.
 \item
   \begin{enumerate}
   \item \textbf{B}
+  
+  Since the output of the first filter will just simply be the sum of all the pixels weighted by 1/9, we can expect that the filter's behavior is that of an averaging over the 8 neighboring pixels and the pixel itself. This will result in a blurring effect because
+  sharper parts of the image will be averaged out with the surrounding pixels. The image generally looks 'smoother' than it did before the filter was applied.
   \item \textbf{A}
+    
+  The kernel itself is all zeroes except for the center, which is 2. This means that for every kernel application, the output will double the pixel value of the center pixel. This generally means that when the filter is applied across the image, the image will be brighter across the entire image. 
+
+
   \item \textbf{C}
+  
+  When applying the kernel we noticed that it is darkening the image and also capturing a vertical line pattern. 
   \end{enumerate}
 
 \item
@@ -266,6 +275,8 @@ Our first initialized centroids are (6,9) for cluster 1 and (8,4) for cluster 2.
         \includegraphics[width=0.75\textwidth]{1_4.png}
         \caption{K Means Clustering Elbow Method No Scaling}
       \end{figure}
+
+      We can see the optimal k is somewhere between 7 and 8. Let us say k = 7. 
     \item \textbf{1.5}
     
     \begin{figure}[H]
@@ -274,12 +285,19 @@ Our first initialized centroids are (6,9) for cluster 1 and (8,4) for cluster 2.
       \caption{K Means Clustering Elbow Method With Scaling}
     \end{figure}
 
+    We can see the optimal k is somewhere between 10 and 11. Let us say k = 10. 
+
     \item \textbf{1.6}
     
     1. Why do you get different results with and without feature scaling? \\ 
 
+    With feature scaling, the data is normalized to have a mean of 0 and a standard deviation of 1. This means that all the features are on the same numerical scale. This is important because now we are able to capture the distances between points on a uniform scale. Since we are more easily able to determine the clusters with the scaled data, we can see that the elbow method
+    yields k = 10 or k = 11 as the optimal k. However, with the unscaled features, we notice that the elbow method yields an optimal k of k = 7 or k = 8. With the scaled features, we can see that we obtain a greater estimate for optimal k. The optimal k shifts because the focus of the features is distributed equally across all features. \\
+
 
     2. Should you scale the features before fitting k-means? Why or why not? \\
+
+    Scaling the features is beneficial before fitting k-means clustering because we can capture the contributions of all features equally on the same scale. Thus, larger scale features will not overtake the algorithm, as we will have more accurate attribution and distance metric calculations. 
   
 
   \end{enumerate}
@@ -292,6 +310,10 @@ Our first initialized centroids are (6,9) for cluster 1 and (8,4) for cluster 2.
       \includegraphics[width=0.75\textwidth]{2_1.png}
       \caption{PCA Accuracy}
     \end{figure}
+
+    As expected, as we begin to add principal components to the model, the test accuracy of the model increases. However, after peaking at the 7th principal component, the test accuracy begins to level out and decreases slightly. This trend that we
+    are noticing can be attributed to the fact that the model is overfitting to the training data. The model is capturing the noise in the data after the 7th principal component and thus the test accuracy begins to decrease. We also notice that
+    adding principal components is not necessarily outperforming the original model without PCA. This could be due to the fact that the model itself already is attributing large weights to important features. 
     \item \textbf{2.2.2}
       The features that are explained best by the PCs together are 'Worst Area', 'Mean Area', and 'Area error'
     \item \textbf{2.3}

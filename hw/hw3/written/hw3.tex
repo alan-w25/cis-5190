@@ -291,7 +291,7 @@ Our first initialized centroids are (6,9) for cluster 1 and (8,4) for cluster 2.
     
     1. Why do you get different results with and without feature scaling? \\ 
 
-    With feature scaling, the data is normalized to have a mean of 0 and a standard deviation of 1. This means that all the features are on the same numerical scale. This is important because now we are able to capture the distances between points on a uniform scale. Since we are more easily able to determine the clusters with the scaled data, we can see that the elbow method
+    With feature scaling, the data is normalized to have a mean of 0 and a standard deviation of 1. This means that all the features are on the same numerical scale. This is important because now we are able to capture the distances between points on a uniform scale. Since we are less able to determine the clusters with the scaled data, we can see that the elbow method
     yields k = 10 or k = 11 as the optimal k. However, with the unscaled features, we notice that the elbow method yields an optimal k of k = 7 or k = 8. With the scaled features, we can see that we obtain a greater estimate for optimal k. The optimal k shifts because the focus of the features is distributed equally across all features. \\
 
 
@@ -315,7 +315,8 @@ Our first initialized centroids are (6,9) for cluster 1 and (8,4) for cluster 2.
     are noticing can be attributed to the fact that the model is overfitting to the training data. The model is capturing the noise in the data after the 7th principal component and thus the test accuracy begins to decrease. We also notice that
     adding principal components is not necessarily outperforming the original model without PCA. This could be due to the fact that the model itself already is attributing large weights to important features. 
     \item \textbf{2.2.2}
-      The features that are explained best by the PCs together are 'Worst Area', 'Mean Area', and 'Area error'
+      The features that are explained best by the PCs together are 'Worst Area', 'Mean Area', and 'Area error'. Respectively, the explained variance by the PC's for 
+      these three features are 0.852, 0.517, and 0.056. 
     \item \textbf{2.3}
 
     \begin{figure}[H]
@@ -347,6 +348,8 @@ Our first initialized centroids are (6,9) for cluster 1 and (8,4) for cluster 2.
       \includegraphics[width=0.75\textwidth]{2_3_11.png}
       \caption{Breast Cancer Clusters K = 11}
     \end{figure}
+
+    For these figures, the greater the number k grows, the clusters will become more distinct. Especially for the wider part of the graph, we see that this entire part becomes distinct clusters as k grows. 
 
 
   \end{enumerate}
